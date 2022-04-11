@@ -1,0 +1,18 @@
+#ifndef _CONFIG_H
+#define _CONFIG_H
+
+static const float R1 { 100000.0 }; //Value of R1 in ohms
+static const float R2 { 390000.0 }; //Value of R2 in ohms
+static const float max_voltage { 3.3 }; //Maximum voltage of analog input on ESP32
+
+static const int num_zones { 6 }; //Number of security zones
+static const float threshold_volts { 6.0 }; //Voltage above which to trigger an alarm
+static const int alarm_windows { 3 }; //How many frames the threshold must be exceeded for alarm
+
+static const char ssid[] = "SSID_GOES_HERE";
+static const char password[] = "PASSWORD_GOES_HERE";
+
+static const char mqtt_server[] = "MQTT_IP_ADDRESS_GOES_HERE";
+static const int mqtt_port = 1883;
+static const char mqtt_topic_template[] = "ha/zones/%d"; //Naming convention for zone topics with %d as zone number from 0->num_zones-1
+#endif
