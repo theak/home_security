@@ -43,7 +43,7 @@ void loop() {
   // put your main code here, to run repeatedly:
   for (int i = 0; i < 1; i++) { //TODO: replace 1 with num_zones
     //Get the voltage
-    value = analogRead(A0 + i);
+    value = analogRead(analog_pins[i]);
     voltage = value / 1575.0 * ((R1 + R2) / R2);
     Serial.print("Voltage from analog pin ");
     Serial.print(i);

@@ -2,6 +2,7 @@
 *.d
 *~
 config.h
+.DS_Store
 
 # Object files
 *.o
