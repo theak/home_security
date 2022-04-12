@@ -57,6 +57,9 @@ void loop() {
           zone_states[i] = false;
           num_windows_triggered[i] = 0;
 
+          Serial.print("Zone ");
+          Serial.print(i);
+          Serial.print(" turned OFF");
           client.publish(zone_topics[i], "OFF");
         }
       } else if (num_windows_triggered[i] > 0) {
@@ -69,6 +72,9 @@ void loop() {
           zone_states[i] = true;
           num_windows_triggered[i] = 0;
 
+          Serial.print("Zone ");
+          Serial.print(i);
+          Serial.print(" turned ON");
           client.publish(zone_topics[i], "ON");
           
         }
