@@ -41,14 +41,13 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  for (int i = 0; i < 1; i++) {
+  for (int i = 0; i < 1; i++) { //TODO: replace 1 with num_zones
     //Get the voltage
     value = analogRead(A0 + i);
     voltage = value / 1575.0 * ((R1 + R2) / R2);
     Serial.print(i);
     Serial.print(": ");
     Serial.println(voltage);
-    delay(1000);
 
     if (zone_states[i]) { //If zone is active
       if (voltage < threshold_volts) {
@@ -77,4 +76,6 @@ void loop() {
       }
     }
   }
+  
+  delay(1000);
 }
