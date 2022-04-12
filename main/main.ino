@@ -45,6 +45,7 @@ void loop() {
     //Get the voltage
     value = analogRead(A0 + i);
     voltage = value / 1575.0 * ((R1 + R2) / R2);
+    Serial.print("Voltage from analog pin ");
     Serial.print(i);
     Serial.print(": ");
     Serial.println(voltage);
