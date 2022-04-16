@@ -3,10 +3,9 @@
 
 static const float R1 { 100000.0 }; //Value of R1 in ohms
 static const float R2 { 390000.0 }; //Value of R2 in ohms
-static const float max_voltage { 3.3 }; //Maximum voltage of analog input on ESP32
 
 static const int num_zones { 6 }; //Number of security zones
-static const float threshold_volts { 6.0 }; //Voltage above which to trigger an alarm
+static const float threshold_volts { 6.83 }; //Voltage above which to trigger an alarm
 static const int alarm_windows { 3 }; //How many frames the threshold must be exceeded for alarm
 static const int analog_pins[] = {A0, A3, A6, A7, A4, A5}; //Analog pin to read for each zone
 

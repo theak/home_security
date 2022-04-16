@@ -39,16 +39,40 @@ void setup() {
   }
 }
 
+void reconnect() {
+  // Loop until we're reconnected
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    // Attempt to connect
+    if (client.connect("ESP8266Client")) {
+      Serial.println("connected");
+      // Subscribe
+      client.subscribe("esp32/output");
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
+      delay(5000);
+    }
+  }
+}
+
 void loop() {
   // put your main code here, to run repeatedly:
-  for (int i = 0; i < 1; i++) { //TODO: replace 1 with num_zones
+  for (int i = 0; i < num_zones; i++) {
     //Get the voltage
     value = analogRead(analog_pins[i]);
-    voltage = value / 1575.0 * ((R1 + R2) / R2);
-    Serial.print("Voltage from analog pin ");
+    voltage = value / 238.0;
+    /*Serial.print("Voltage from analog pin ");
     Serial.print(i);
     Serial.print(": ");
-    Serial.println(voltage);
+    Serial.println(voltage);*/
+
+    if (!client.connected()) {
+      reconnect();
+    }
+    client.loop();
 
     if (zone_states[i]) { //If zone is active
       if (voltage < threshold_volts) {
@@ -56,12 +80,11 @@ void loop() {
         if (num_windows_triggered[i] >= alarm_windows) {
           zone_states[i] = false;
           num_windows_triggered[i] = 0;
-
+        }
           Serial.print("Zone ");
           Serial.print(i);
-          Serial.print(" turned OFF");
-          client.publish(zone_topics[i], "OFF");
-        }
+          Serial.println(" turned OFF");
+        client.publish(zone_topics[i], "OFF");
       } else if (num_windows_triggered[i] > 0) {
         num_windows_triggered[i] = 0;
       }
@@ -74,7 +97,7 @@ void loop() {
 
           Serial.print("Zone ");
           Serial.print(i);
-          Serial.print(" turned ON");
+          Serial.println(" turned ON");
           client.publish(zone_topics[i], "ON");
           
         }
@@ -82,7 +105,12 @@ void loop() {
         num_windows_triggered[i] = 0;
       }
     }
+    /*Serial.println("Publishing state..");
+    client.publish(zone_topics[i], zone_states[i]?"ON":"OFF");
+    char voltstr[20];
+    gcvt(voltage, 6, voltstr);
+    if (voltage > 0) client.publish(zone_topics[i], voltstr);*/
   }
   
-  delay(1000);
+  delay(500);
 }
